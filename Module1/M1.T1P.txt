@@ -1,0 +1,36 @@
+//https://www.tinkercad.com/things/adKeyjrB3II-smooth-waasa-stantia/editel?tenant=circuits
+
+const int TEMP_SENSOR_PIN = A2;  //Temp Sensor
+const int LED_PIN = A1;  //LED
+
+//Lower limit for when the LED should turn on
+const float TEMPERATURE_THRESHOLD = 30.0;
+
+void setup() {
+  //Serial rate
+  Serial.begin(9600);
+  
+  //LED pin is an output
+  pinMode(LED_PIN, OUTPUT);
+}
+
+void loop() {
+  //Read the analog temperature
+  float voltage = analogRead(TEMP_SENSOR_PIN) * (5.0 / 1023.0);
+  
+  //Convert it to celcius
+  float temperature = (voltage - 0.5) * 100.0;
+
+  //Print the temperature
+  Serial.println("Temperature: " + String(temperature) + " Celsius");
+
+  //Trigger the LED if it's above the threshold
+  if (temperature > TEMPERATURE_THRESHOLD) {
+    digitalWrite(LED_PIN, HIGH);
+  } else {
+    digitalWrite(LED_PIN, LOW);
+  }
+  
+  //removed this so the code was more reactive
+  delay(1000);
+}
